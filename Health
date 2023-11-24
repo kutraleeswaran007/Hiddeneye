@@ -1,0 +1,60 @@
+-- Dimension Table: Patient
+CREATE TABLE Patient (
+    PatientID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DateOfBirth DATE,
+    Gender VARCHAR(10),
+    -- Other patient attributes
+);
+
+-- Dimension Table: Doctor
+CREATE TABLE Doctor (
+    DoctorID INT PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Specialization VARCHAR(50),
+    -- Other doctor attributes
+);
+
+-- Dimension Table: Hospital
+CREATE TABLE Hospital (
+    HospitalID INT PRIMARY KEY,
+    HospitalName VARCHAR(100),
+    Location VARCHAR(255),
+    -- Other hospital attributes
+);
+
+-- Dimension Table: Time
+CREATE TABLE Time (
+    TimeID INT PRIMARY KEY,
+    AppointmentDate DATE,
+    TimeSlot VARCHAR(20),
+    -- Other time attributes
+);
+
+-- Fact Table: Appointments
+CREATE TABLE Appointments (
+    AppointmentID INT PRIMARY KEY,
+    PatientID INT,
+    DoctorID INT,
+    HospitalID INT,
+    TimeID INT,
+    Diagnosis VARCHAR(255),
+    Prescription VARCHAR(255),
+    -- Other appointment attributes
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),
+    FOREIGN KEY (DoctorID) REFERENCES Doctor(DoctorID),
+    FOREIGN KEY (HospitalID) REFERENCES Hospital(HospitalID),
+    FOREIGN KEY (TimeID) REFERENCES Time(TimeID)
+);
+
+-- Fact Table: MedicalHistory
+CREATE TABLE MedicalHistory (
+    HistoryID INT PRIMARY KEY,
+    PatientID INT,
+    Diagnosis VARCHAR(255),
+    Treatment VARCHAR(255),
+    -- Other medical history attributes
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID)
+);
