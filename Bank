@@ -1,0 +1,49 @@
+-- Dimension Table: Customer
+CREATE TABLE Customer (
+    CustomerID INT PRIMARY KEY,
+    CustomerName VARCHAR(100),
+    Address VARCHAR(255),
+    -- Other customer attributes
+);
+
+-- Dimension Table: Account
+CREATE TABLE Account (
+    AccountID INT PRIMARY KEY,
+    CustomerID INT,
+    AccountType VARCHAR(50),
+    Balance DECIMAL(15, 2),
+    -- Other account attributes
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+-- Dimension Table: Time
+CREATE TABLE Time (
+    TimeID INT PRIMARY KEY,
+    Date DATE,
+    Month INT,
+    Year INT,
+    -- Other time attributes
+);
+
+-- Dimension Table: Branch
+CREATE TABLE Branch (
+    BranchID INT PRIMARY KEY,
+    BranchName VARCHAR(100),
+    Location VARCHAR(255),
+    -- Other branch attributes
+);
+
+-- Fact Table: Transactions
+CREATE TABLE Transactions (
+    TransactionID INT PRIMARY KEY,
+    CustomerID INT,
+    AccountID INT,
+    TimeID INT,
+    BranchID INT,
+    Amount DECIMAL(15, 2),
+    -- Other transaction attributes
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID),
+    FOREIGN KEY (AccountID) REFERENCES Account(AccountID),
+    FOREIGN KEY (TimeID) REFERENCES Time(TimeID),
+    FOREIGN KEY (BranchID) REFERENCES Branch(BranchID)
+);
